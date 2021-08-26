@@ -1,7 +1,7 @@
-##Visualizar diretÛrio
+##Visualizar diret√≥rio
 getwd()
-##Setar um diretÛrio especÌfico
-setwd("C:/Users/karen/Downloads/Cursos Alura/Linguagem R/Data Visualization parte 2 gr·ficos com multivari·veis/dataviz_mult_var-dados")
+##Setar um diret√≥rio espec√≠fico
+setwd("42kkkkkaren/data-visualization-graficos-com-multivariaveis")
 
 ##Chamada das bibliotecas a serem utilizadas
 ##install.packages("data.table")
@@ -22,7 +22,7 @@ enem_2017 <- fread("enem_2017.csv", encoding = "UTF-8")
 ##Trabalhar apenas com um objeto
 ##Merge por linhas e colunas, portanto, objetos devem ter valores referentes iguais
 merge_enem <- rbind(enem_2010, enem_2011, enem_2012, enem_2013, enem_2014, enem_2015, enem_2016, enem_2017, fill = TRUE)
-##Eliminar registros anteriores - Gasto de memÛria.
+##Eliminar registros anteriores - Gasto de mem√≥ria.
 rm(enem_2010, enem_2011, enem_2012, enem_2013, enem_2014, enem_2015, enem_2016, enem_2017)
 
 colunas <- c("NUMERO_INSCRICAO","ANO","CO_MUNICIPIO_RESIDENCIA","MUNICIPIO_RESIDENCIA",
@@ -37,8 +37,8 @@ str(enem)
 
 ##Verificar colunas e valores nela armazenado
 table(enem$SEXO)
-##0  1  F  M - Transformar para valores se tornarem ˙nicos (1/F e 0/M)
-##gsub("O que vocÍ t· procurando", "Vai ser trocado por", local armazenado)
+##0  1  F  M - Transformar para valores se tornarem √∫nicos (1/F e 0/M)
+##gsub("O que voc√™ t√° procurando", "Vai ser trocado por", local armazenado)
 enem$SEXO <- gsub("1", "FEMININO", enem$SEXO)
 enem$SEXO <- gsub("^F$", "FEMININO", enem$SEXO)
 enem$SEXO <- gsub("0", "MASCULINO", enem$SEXO)
@@ -46,18 +46,18 @@ enem$SEXO <- gsub("^M$", "MASCULINO", enem$SEXO)
 
 table(enem$TIPO_LINGUA)
 ##.  0   1 
-enem$TIPO_LINGUA <- gsub("0", "INGL S", enem$TIPO_LINGUA)
+enem$TIPO_LINGUA <- gsub("0", "INGL√äS", enem$TIPO_LINGUA)
 enem$TIPO_LINGUA <- gsub("1", "ESPANHOL", enem$TIPO_LINGUA)
 
 length(table(enem$UF_PROVA))
-##28, mas sÛ temos 27 UFs
+##28, mas s√≥ temos 27 UFs
 
 table(enem$SITUACAO_CONCLUSAO)
 ## 1  2  3  4 
-enem$SITUACAO_CONCLUSAO <- gsub("1", "CONCLUÕDO", enem$SITUACAO_CONCLUSAO)
-enem$SITUACAO_CONCLUSAO <- gsub("2", "CONCLUIR¡ NO ANO", enem$SITUACAO_CONCLUSAO)
-enem$SITUACAO_CONCLUSAO <- gsub("3", "CONCLUIR¡ AP”S(ANO)", enem$SITUACAO_CONCLUSAO)
-enem$SITUACAO_CONCLUSAO <- gsub("4", "N√O CONCLUÕDO/N√O CURSANDO", enem$SITUACAO_CONCLUSAO)
+enem$SITUACAO_CONCLUSAO <- gsub("1", "CONCLU√çDO", enem$SITUACAO_CONCLUSAO)
+enem$SITUACAO_CONCLUSAO <- gsub("2", "CONCLUIR√Å NO ANO", enem$SITUACAO_CONCLUSAO)
+enem$SITUACAO_CONCLUSAO <- gsub("3", "CONCLUIR√Å AP√ìS(ANO)", enem$SITUACAO_CONCLUSAO)
+enem$SITUACAO_CONCLUSAO <- gsub("4", "N√ÉO CONCLU√çDO/N√ÉO CURSANDO", enem$SITUACAO_CONCLUSAO)
 
 summary(enem$NOTA_CIENCIAS_HUMANAS)
 enem$NOTA_CIENCIAS_HUMANAS <- as.numeric(enem$NOTA_CIENCIAS_HUMANAS)
@@ -87,7 +87,7 @@ plot_idioma_sexo <- p
 
 ggplot(data = enem) +
   geom_bar(aes(x = UF_PROVA), stat = 'count')
-##Eliminar notaÁ„o cientÌfica
+##Eliminar nota√ß√£o cient√≠fica
 options(scipen = 9999)
 
 uf_prova <- enem %>%
@@ -95,18 +95,18 @@ uf_prova <- enem %>%
               select_(.dots = c('UF_PROVA', 'SITUACAO_CONCLUSAO'))
 
 ##fill define cores distintas
-##~. final, pegar· somente a devida coluna
+##~. final, pegar√° somente a devida coluna
 plot_uf_conclusao <- ggplot(data = uf_prova) +
                       geom_bar(aes(x = UF_PROVA, fill = SITUACAO_CONCLUSAO), 
                                position = position_dodge()) +
                       facet_grid(SITUACAO_CONCLUSAO~.)
 
 p <- plot_uf_conclusao + 
-      ggtitle('SituaÁ„o Escolar por Estado') +
+      ggtitle('Situa√ß√£o Escolar por Estado') +
       xlab('Estado') + ylab('Quantidade')
 
 p <- p + theme_linedraw() +
-      labs(fill = 'SituaÁ„o') +
+      labs(fill = 'Situa√ß√£o') +
       theme(plot.title = element_text(hjust = 0.5))
 
 plot_uf_conclusao <- p
@@ -128,25 +128,25 @@ ggplot(data = media_idade_sexo_uf) +
   position = position_dodge(), stat = 'identity') +
   coord_flip()
 
-##Gr·fico de pir‚mide
-##N„o h· funÁ„o especÌfica para gr·fico de pir‚mide
+##Gr√°fico de pir√¢mide
+##N√£o h√° fun√ß√£o espec√≠fica para gr√°fico de pir√¢mide
 plot_piram_idade <- ggplot(data = media_idade_sexo_uf, 
                      aes(x = reorder(UF_PROVA, -media), 
                          y = ifelse(SEXO == 'MASCULINO', -media, media),
                          fill = SEXO)) +
                 geom_bar(stat = 'identity') + 
                 coord_flip()
-##Alterar valor das mÈdias negativas
+##Alterar valor das m√©dias negativas
 plot_piram_idade <- plot_piram_idade + scale_y_continuous(labels = abs)
 
 p <- plot_piram_idade +
-        ggtitle('MÈdia de Idade por UF e Sexo') +
-        xlab('Estado') + ylab('MÈdia Idade') +
+        ggtitle('M√©dia de Idade por UF e Sexo') +
+        xlab('Estado') + ylab('M√©dia Idade') +
         theme_bw() + theme(plot.title = element_text(hjust = 0.5))
 
 p <- p + scale_fill_manual(values = c('hotpink', 'dodgerblue3'))
 
-##Colocar rÛtulos em cada barra demonstrando o que a mesma representa
+##Colocar r√≥tulos em cada barra demonstrando o que a mesma representa
 p <- p + geom_text(aes(label = round(media, digits = 2),
                     hjust = 0.5),
                     size = 4.5,
@@ -163,7 +163,7 @@ notas_ciencias_humanas <- enem %>%
 notas_ciencias_humanas_idade <- notas_ciencias_humanas %>% 
                                 group_by(IDADE) %>%
                                 summarise(media_nota_ciencias_humanas = mean(NOTA_CIENCIAS_HUMANAS))
-##Gr·fico de pontos
+##Gr√°fico de pontos
 ggplot(data = notas_ciencias_humanas_idade) +
   geom_point(aes(x = IDADE, y = media_nota_ciencias_humanas))
 
@@ -186,21 +186,21 @@ View(notas_ciencias_humanas_matematica_idade)
 ##install.packages("reshape2")
 library(reshape2)
 
-##id.vars indica qual coluna vai ser mantida e n„o ser· transformada em linhas
+##id.vars indica qual coluna vai ser mantida e n√£o ser√° transformada em linhas
 notas_ciencias_humanas_matematica_idade <- melt(notas_ciencias_humanas_matematica_idade,
                                                 id.vars = 'IDADE')
 plot_scatter_mt_ch <- ggplot(data = notas_ciencias_humanas_matematica_idade) +
                         geom_point(aes(IDADE, value, color = variable))
 p <- plot_scatter_mt_ch +
-      ggtitle('MÈdia Notas por Idade e MatÈria') +
-      xlab('Idade') + ylab('Notas (mÈdia)')
+      ggtitle('M√©dia Notas por Idade e Mat√©ria') +
+      xlab('Idade') + ylab('Notas (m√©dia)')
 p <- p + theme_bw()
-p <- p + scale_color_manual(name = 'MatÈria',
+p <- p + scale_color_manual(name = 'Mat√©ria',
                             values = c('blue', 'red'),
-                            labels = c('CiÍncias\nHumanas', 'Matem·tica'))
+                            labels = c('Ci√™ncias\nHumanas', 'Matem√°tica'))
 plot_scatter_mt_ch <- p
 
-##Gr·ficos atÈ agora
+##Gr√°ficos at√© agora
 plot_idioma_sexo
 plot_uf_conclusao
 plot_piram_idade
@@ -230,18 +230,18 @@ plot_line_notas <- ggplot(data = media_anos_2) +
 
 ##Inserir pontos em locais que indicam valores
 p <- plot_line_notas +
-        ggtitle("MÈdia Notas por MatÈria") +
-                  ylab('MÈdia') +
+        ggtitle("M√©dia Notas por Mat√©ria") +
+                  ylab('M√©dia') +
                   geom_point(aes(ANO, value, color = variable), size = 3)
-##Inserir rÛtulos em pontos
+##Inserir r√≥tulos em pontos
 p <- p + geom_text(aes(x = ANO, y = value, color = variable, 
                   label = round(value, digits = 2),
                   hjust = -0.15,
                   vjust = 0.2))
-p <- p + scale_color_discrete(name = 'MatÈrias', labels = c("CiÍncia da Natureza",
-                                                       "CiÍncias Humanas",
-                                                       "Matem·tica", "Linguagens e CÛdigos",
-                                                       "RedaÁ„o")) + theme_bw()
+p <- p + scale_color_discrete(name = 'Mat√©rias', labels = c("Ci√™ncia da Natureza",
+                                                       "Ci√™ncias Humanas",
+                                                       "Matem√°tica", "Linguagens e C√≥digos",
+                                                       "Reda√ß√£o")) + theme_bw()
 plot_line_notas <- p
 plot_line_notas
 
@@ -261,9 +261,9 @@ plot_bolhas_uf_notas <- ggplot(data = notas_matematica_redacao) +
                                          color = UF_PROVA, size = media_nota_reda),
                                      alpha = .5)
 p <- plot_bolhas_uf_notas +
-      ggtitle('MÈdias Matem·tica, CiÍncias Humanas e RedaÁ„o') +
-      xlab('MÈdia de Notas CiÍncias Humanas') + ylab('MÈdia de Notas Matem·tica')
-p <- p + labs(color = 'UF Prova', size = 'MÈdia da Nota RedaÁ„o')
+      ggtitle('M√©dias Matem√°tica, Ci√™ncias Humanas e Reda√ß√£o') +
+      xlab('M√©dia de Notas Ci√™ncias Humanas') + ylab('M√©dia de Notas Matem√°tica')
+p <- p + labs(color = 'UF Prova', size = 'M√©dia da Nota Reda√ß√£o')
 p <- p + theme_bw() + theme(legend.position = 'bottom')
 
 plot_bolhas_uf_notas <- p
@@ -286,7 +286,7 @@ p <- ggplot(data = dados) +
         geom_boxplot(aes(x = UF_PROVA, y = NOTA_REDACAO, fill = filial),
                      outlier.colour = 'red', outlier.size = 3.5)
 
-p <- p + xlab('UF Prova') + ylab('Nota RedaÁ„o') +
+p <- p + xlab('UF Prova') + ylab('Nota Reda√ß√£o') +
          theme_bw()
 
 p <- p + scale_fill_manual(name = '', values = c('chocolate3', 'chartreuse3'),
@@ -313,8 +313,8 @@ plot_bar_erro <- ggplot(data = dados, aes(x = reorder(UF_PROVA, media_uf), y = m
                   geom_errorbar(aes(ymin = media_nacional/2, ymax = media_nacional), size = 1) +
                   geom_bar(aes(fill = filial), stat = 'identity') + coord_flip() +
                   guides(fill = F) +
-                  ggtitle('MÈdia de Nota RedaÁ„o por UF/Nacional') +
-                  xlab('UF Prova') + ylab('MÈdia RedaÁ„o') +
+                  ggtitle('M√©dia de Nota Reda√ß√£o por UF/Nacional') +
+                  xlab('UF Prova') + ylab('M√©dia Reda√ß√£o') +
                   theme_bw()
 
 plot_idioma_sexo 
